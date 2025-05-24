@@ -1,0 +1,211 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: May 24, 2025 at 11:38 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `login_system`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coordinator`
+--
+
+CREATE TABLE `coordinator` (
+  `coordinatorID` int(11) NOT NULL,
+  `loginID` int(11) NOT NULL,
+  `coordinator_name` varchar(100) NOT NULL,
+  `coordinator_email` varchar(100) NOT NULL,
+  `staffID` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `eventadvisor`
+--
+
+CREATE TABLE `eventadvisor` (
+  `advisorID` int(11) NOT NULL,
+  `loginID` int(11) NOT NULL,
+  `advisor_name` varchar(100) NOT NULL,
+  `advisor_email` varchar(100) NOT NULL,
+  `staffID` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `login`
+--
+
+CREATE TABLE `login` (
+  `loginID` int(11) NOT NULL,
+  `Username` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `role` enum('Student','Coordinator','EventAdvisor','') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `login`
+--
+
+INSERT INTO `login` (`loginID`, `Username`, `password`, `role`) VALUES
+(1, 'student01', 's123', 'Student'),
+(2, 'advisor01', 'ad123', 'EventAdvisor'),
+(3, 'coordinator01', 'c123', 'Coordinator'),
+(4, 'student02', 's02', 'Student');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `membership`
+--
+
+CREATE TABLE `membership` (
+  `membershipID` int(11) NOT NULL,
+  `studentID` int(11) NOT NULL,
+  `matric_id_pic` varchar(250) NOT NULL COMMENT 'File path or filename of the uploaded image',
+  `status` enum('Pending','Approved','Rejected','') NOT NULL,
+  `application_date` date NOT NULL,
+  `approval_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `membership`
+--
+
+INSERT INTO `membership` (`membershipID`, `studentID`, `matric_id_pic`, `status`, `application_date`, `approval_date`) VALUES
+(1, 1, 'uploads/6830d5dc036c3_Screenshot 2024-06-17 231555.png', 'Pending', '2025-05-23', '0000-00-00'),
+(2, 1, 'uploads/68316357cf417_Screenshot 2024-06-22 020543.png', 'Pending', '2025-05-24', '0000-00-00'),
+(3, 2, 'uploads/68316457b11d8_Screenshot 2024-06-18 161607.png', 'Pending', '2025-05-24', '0000-00-00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student`
+--
+
+CREATE TABLE `student` (
+  `studentID` int(11) NOT NULL,
+  `loginID` int(11) NOT NULL,
+  `student_name` varchar(100) NOT NULL,
+  `student_number` varchar(100) NOT NULL,
+  `student_email` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `student`
+--
+
+INSERT INTO `student` (`studentID`, `loginID`, `student_name`, `student_number`, `student_email`) VALUES
+(1, 1, 'Saathish', 'cb23019', 'saathish3777@gmail.com'),
+(2, 4, 'shakti', 'ca23019', 'shakti3777@gmail.com');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `coordinator`
+--
+ALTER TABLE `coordinator`
+  ADD PRIMARY KEY (`coordinatorID`),
+  ADD KEY `loginID` (`loginID`);
+
+--
+-- Indexes for table `eventadvisor`
+--
+ALTER TABLE `eventadvisor`
+  ADD PRIMARY KEY (`advisorID`),
+  ADD KEY `loginID` (`loginID`);
+
+--
+-- Indexes for table `login`
+--
+ALTER TABLE `login`
+  ADD PRIMARY KEY (`loginID`);
+
+--
+-- Indexes for table `membership`
+--
+ALTER TABLE `membership`
+  ADD PRIMARY KEY (`membershipID`);
+
+--
+-- Indexes for table `student`
+--
+ALTER TABLE `student`
+  ADD PRIMARY KEY (`studentID`),
+  ADD KEY `loginID` (`loginID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `coordinator`
+--
+ALTER TABLE `coordinator`
+  MODIFY `coordinatorID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `login`
+--
+ALTER TABLE `login`
+  MODIFY `loginID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `membership`
+--
+ALTER TABLE `membership`
+  MODIFY `membershipID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `student`
+--
+ALTER TABLE `student`
+  MODIFY `studentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `coordinator`
+--
+ALTER TABLE `coordinator`
+  ADD CONSTRAINT `coordinator_ibfk_1` FOREIGN KEY (`loginID`) REFERENCES `login` (`loginID`);
+
+--
+-- Constraints for table `eventadvisor`
+--
+ALTER TABLE `eventadvisor`
+  ADD CONSTRAINT `eventadvisor_ibfk_1` FOREIGN KEY (`loginID`) REFERENCES `login` (`loginID`);
+
+--
+-- Constraints for table `student`
+--
+ALTER TABLE `student`
+  ADD CONSTRAINT `student_ibfk_1` FOREIGN KEY (`loginID`) REFERENCES `login` (`loginID`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
