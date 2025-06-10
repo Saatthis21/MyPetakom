@@ -13,43 +13,54 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
-// Login logic continues here...
-$username = $_POST['username'];
-$password = $_POST['password'];
+// Check if form data exists
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $role = $_POST['role'];
+   
 
-$sql = "SELECT * FROM login WHERE Username = ? AND Password = ?";
-$stmt = $conn->prepare($sql);
-$stmt->execute([$username, $password]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Fetch user by username and role only
+    $sql = "SELECT * FROM login WHERE Username = ? AND role = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$username, $role]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($user) {
-    $_SESSION['username'] = $user['Username'];
-    $_SESSION['role'] = $user['role'];
-    $_SESSION['loggedin'] = true;
+    // Check if user exists and password is correct
+    if ($user && password_verify($password, $user['password'])) {
+        $_SESSION['username'] = $user['Username'];
+        $_SESSION['role'] = $user['role'];
+        $_SESSION['loginID'] = $user['loginID'];
+        $_SESSION['loggedin'] = true;
 
-    $_SESSION['message'] = "Login successful!";
-    $_SESSION['message_type'] = "success";
 
-    switch(strtolower($user['role'])) {
-      case 'student':
-          header("Location: stDashboard.php");
-          break;
-      case 'coordinator':
-          header("Location: cdDashboard.php");
-          break;
-      case 'advisor':
-          header("Location: adDashboard.php");
-          break;
-      // Add more roles as needed
-      default:
-          header("Location: defaultDashboard.php");
-          break;
-  }
-  exit();
+        $_SESSION['message'] = "Login successful!";
+        $_SESSION['message_type'] = "success";
 
+        // Redirect based on role
+        switch (strtolower($user['role'])) {
+            case 'student':
+                header("Location: stDashboard.php");
+                break;
+            case 'coordinator':
+                header("Location: cdDashboard.php");
+                break;
+            case 'eventadvisor':
+                header("Location: EaDashboard.php");
+                break;
+            default:
+                header("Location: defaultDashboard.php");
+                break;
+        }
+        exit();
+    } else {
+        $_SESSION['message'] = "Invalid credentials or role mismatch, please try again.";
+        $_SESSION['message_type'] = "error";
+        header("Location: LoginPage.php");
+        exit();
+    }
 } else {
-    $_SESSION['message'] = "Invalid credentials, please try again.";
-    $_SESSION['message_type'] = "error";
+    // Redirect if accessed directly
     header("Location: LoginPage.php");
     exit();
 }

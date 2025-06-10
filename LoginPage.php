@@ -1,5 +1,6 @@
 <?php
 session_start();
+$successMessage = '';
 
 if (isset($_SESSION['message']) && $_SESSION['message_type'] === 'error') {
     $message = $_SESSION['message'];
@@ -7,11 +8,15 @@ if (isset($_SESSION['message']) && $_SESSION['message_type'] === 'error') {
     unset($_SESSION['message']);
     unset($_SESSION['message_type']);
 }
-if (isset($_GET['LogOut'])) {
-    $_SESSION['message'] = "You have been successfully logged out.";
-    $_SESSION['message_type'] = "success";
-    session_destroy();
+if (isset($_SESSION['message']) && $_SESSION['message_type'] === 'success') {
+    echo "<script>alert('" . addslashes($_SESSION['message']) . "');</script>";
+    unset($_SESSION['message']);
+    unset($_SESSION['message_type']);
 }
+if (isset($_GET['logged_out'])) {
+    echo "<script>alert('You have been successfully logged out.');</script>";
+}
+
 
 ?>
 
@@ -155,7 +160,7 @@ if (isset($_GET['LogOut'])) {
         </form>
 
             <div class="help-text">
-                <a href="#">Registration</a> | 
+                <a href="registartion.php">Registration</a> | 
                 <a href="#">Forget Password?</a>
             </div>
             <p class="help-text">My Petakom User Support</p>
