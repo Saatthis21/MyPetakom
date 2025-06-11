@@ -33,15 +33,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } elseif (isset($_POST['delete_account'])) {
         try {
-            $stmt = $pdo->prepare("DELETE FROM student WHERE loginID=?");
+           
+            $pdo->beginTransaction();
+            
+           
+            $stmt = $pdo->prepare("SELECT studentID FROM student WHERE loginID=?");
             $stmt->execute([$loginID]);
+            $student = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($student) {
+                $studentID = $student['studentID'];
+                
+               
+                
+                
+                $stmt = $pdo->prepare("DELETE FROM attendance WHERE studentID=?");
+                $stmt->execute([$studentID]);
+                
+                
+                $stmt = $pdo->prepare("DELETE FROM membership WHERE loginID=?");
+                $stmt->execute([$logintID]);
+                
+                
+                $stmt = $pdo->prepare("DELETE FROM student WHERE loginID=?");
+                $stmt->execute([$loginID]);
+                
+               
+                $stmt = $pdo->prepare("DELETE FROM login WHERE loginID=?");
+                $stmt->execute([$loginID]);
+                
+                
+                $pdo->commit();
+               
+                session_destroy();
+                header("Location: LoginPage.php?message=Account deleted successfully");
+                exit();
+                
+            } else {
+                throw new Exception("Student record not found");
+            }
 
-            $stmt = $pdo->prepare("DELETE FROM login WHERE loginID=?");
-            $stmt->execute([$loginID]);
-
-            session_destroy();
-            header("Location: LoginPage.php");
-            exit();
         } catch (PDOException $e) {
             $message = "Error deleting account: " . $e->getMessage();
         }
@@ -67,6 +98,9 @@ if (!$user) {
         function confirmLogout() {
             if (confirm("Are you sure you want to logout?")) {
                 window.location.href = "logout.php";
+            }
+            function confirmDelete() {
+            document.getElementById('deleteForm').submit();
             }
         }
 

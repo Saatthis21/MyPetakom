@@ -387,7 +387,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button>Dashboard</button>
     </a>
     <a href="coordinatorProfile.php">
-        <button>Profile</button>
+        <button class="active">Profile</button>
     </a>
     <a href="adMembershipDis.php">
         <button>Membership Approvals</button>
@@ -395,7 +395,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <button>Event Management</button>
     <button>Merit Approvals</button>
     <button>Reports</button>
-    <button class="active">Add User and Delete</button>
     <button onclick="confirmLogout()">LogOut</button>
 </div>
 
@@ -462,6 +461,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <option value="">Select Account Type</option>
             <option value="Student">Student</option>
             <option value="eventAdvisor">Event Advisor</option>
+            <option value="Coordinator">Coordinator</option>
         </select>
     </div>
 

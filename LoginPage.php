@@ -145,11 +145,7 @@ if (isset($_GET['logged_out'])) {
                     </select>
                 </td>
             </tr>
-        
-            <tr>
-                <td><input type="checkbox"></td>
-                <td>Remember Me</td>
-            </tr>
+    
             </table>
         </div>
     
@@ -160,8 +156,8 @@ if (isset($_GET['logged_out'])) {
         </form>
 
             <div class="help-text">
-                <a href="registartion.php">Registration</a> | 
-                <a href="#">Forget Password?</a>
+                <a href="registartion.php">Registration</a>  
+                
             </div>
             <p class="help-text">My Petakom User Support</p>
        

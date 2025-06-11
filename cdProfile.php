@@ -32,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $message = "Error updating profile: " . $e->getMessage();
         }
     }
+    
 }
 
 // Fetch coordinator data
@@ -248,7 +249,7 @@ if (!$user) {
                 <button class="action-btn" type="button">Change Password</button>
                 
                 <button class="action-btn" name="save_changes" type="submit" style="margin-left: 20px;">Save Changes</button>
-                <button class="action-btn" type="button" style="margin-left: 0px;">Delete Account</button>
+                
                 <a href="cdNewUser.php">
                 <button class="action-btn admin-only" type="button" style="margin-left: 160px;">Add User</button>
                 </a>

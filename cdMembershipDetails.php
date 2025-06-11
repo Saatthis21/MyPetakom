@@ -277,6 +277,7 @@ $conn->close();
   <div class="sidebar">
     <a href="cdDashboard.php"><button class="navButton">Dashboard</button></a>
     <a href="cdProfile.php"><button class="navButton">Profile</button></a>
+    <button class="navButton">Add User and Delete</button>
     <button class="navButtonactive">Membership Approval</button>
     <button class="navButton">Event Management</button>
     <button class="navButton">Merits Approvals</button>
@@ -307,8 +308,7 @@ $conn->close();
               <label class="field-label">Status</label>
               <input class="field-input" value="<?php echo htmlspecialchars($row['status']); ?>" readonly>
             </div>
-            <a class="profile-link"
-               href="cdViewStudentProfile.php?id=<?php echo $row['studentID']; ?>">Link to profile</a>
+            
 
             <input type="hidden" name="membershipID" value="<?php echo $membershipID;?>">
             <div class="action-buttons">

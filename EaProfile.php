@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } elseif (isset($_POST['delete_account'])) {
         try {
-            $stmt = $pdo->prepare("DELETE FROM event_advisor WHERE loginID=?");
+            $stmt = $pdo->prepare("DELETE FROM eventadvisor WHERE loginID=?");
             $stmt->execute([$loginID]);
 
             $stmt = $pdo->prepare("DELETE FROM login WHERE loginID=?");
@@ -66,6 +66,9 @@ if (!$user) {
         function confirmLogout() {
             if (confirm("Are you sure you want to logout?")) {
                 window.location.href = "logout.php";
+            }
+            function confirmDelete() {
+            document.getElementById('deleteForm').submit();
             }
         }
     </script>
@@ -276,9 +279,8 @@ if (!$user) {
             <div class="action-buttons">
                 <button type="submit" id="saveBtn" name="save_changes" class="action-btn" style="display:none;">Save Changes</button>
                 <button type="button" class="action-btn" onclick="window.location.href='changePassword.php'">Change Password</button>
-                <button type="button" class="action-btn" onclick="showUnavailableAlert()">Two-Factor Auth</button>
                 <button type="button" class="action-btn" onclick="confirmDelete()" style="margin-left: 550px;">Delete Account</button>
-                <button class="action-btn admin-only">Add User (admin only)</button>
+               
             </div>
         </div>
     </form>

@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $role = $_POST['role'];
    
 
-    // Fetch user by username and role only
+    // Fetch user by username and role
     $sql = "SELECT * FROM login WHERE Username = ? AND role = ?";
     $stmt = $conn->prepare($sql);
     $stmt->execute([$username, $role]);

@@ -12,7 +12,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Get pending memberships and student info
+// pending memberships and student info
 $sql = "
     SELECT m.*, s.student_name, s.student_number 
     FROM membership m

@@ -185,14 +185,16 @@ $username = $_SESSION['username'];
     </div>
 
     <div class="sidebar">
-    <button class="active">Dashboard</button>
+    <a href="stDashboard.php">
+    <button >Dashboard</button>
+    </a>
     <a href="userProfile.php">
     <button>My Profile</button>
     </a>
     <a href="stMembership.php">
     <button>Apply Membership</button>
     </a>
-    <a href="st.MembershipStatus.php">
+    <a class="active" href="st.MembershipStatus.php">
     <button>Membership Status</button>
     </a>
     <a href="generateQR.php">
